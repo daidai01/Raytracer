@@ -41,21 +41,18 @@ ACM伪摄影公司，简称PPCA，于2021年成立😉
 
 - Ray Tracing book 1，轻巧的一个周末。
 
-- [x] code review（60pts for 工科，40pts for ACM）：第二周周一。
-  - book 1相关细节
-  - Rust特性掌握（简易，不超出要求章节外）
+初定code review：第二周周一。
+- book 1相关细节
+- Rust特性掌握（简易，不超出要求章节外）
 
 ## Task 2: Next Week
 
-- Ray Tracing book 2
+- Ray Tracing book 2 （Motion Blur / Fog可二选一）
 - 多线程渲染
 
-- [ ] code review （仅工科，35pts）：第二周周五下午3点
-
-  - 必须完成部分（20pts，未做完不得分）：BVH、Rectangles and Lights；其余部分视完成情况给分，封顶为book 2全部完成 + 多线程渲染。
-
-  - book 2实现部分的相关细节，尤其是BVH部分，请务必尝试搞懂！
-  - 工科同学结课🎉 作品互评🤯
+初定code review：第二周周五
+- book 2相关细节
+- 工科同学结课🎉 作品互评🤯
 
 ## Task 3: Rest of Your Life & Extra work
 
@@ -94,17 +91,7 @@ ACM伪摄影公司，简称PPCA，于2021年成立😉
 * 如果你有多余的时间，你可以通过 benchmark 来测试实现功能前后的区别。
   * 完成 Track 3 前请备份代码 (比如记录 git 的 commit id)。完成 Track 4, 5, 6 时请保留原先的场景和程序，在此基础上添加新的内容。
   * 你可以使用 `criterion` crate 做 benchmark。benchmark 的内容可以是往构造好的场景中随机打光线，记录打一条光线所需的时间。
-- **Track 9: Support for .obj ** 支持载入obj文件并渲染。完成这一部分你可能需要：
-  - 了解obj文件格式
-  - 实现一个obj_loader
-    - 可调包，如tobj
-    - 若手写，可酌情给予不超过5分的bonus
-    - OBJ文件格式和tobj可参考[参考资料](https://docs.rs/tobj/3.0.1/tobj/)或自行搜索
-  - 实现对简单多边形和曲面的渲染
 
-- 支持obj可以让你最后的大作更精彩哦 :)                 ~图源参考资料↓~ 
-
-  ![Rust logo with friends](http://i.imgur.com/E1ylrZW.png)
 
 ## More Information
 
