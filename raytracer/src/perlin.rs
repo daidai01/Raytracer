@@ -1,6 +1,7 @@
 use crate::random_int;
 use crate::vec3::Vec3;
 
+#[derive(Clone)]
 pub struct Perlin {
     ranvec: Vec<Vec3>,
     perm_x: Vec<i32>,

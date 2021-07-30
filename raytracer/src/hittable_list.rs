@@ -1,10 +1,11 @@
 use crate::aabb::AABB;
-use crate::hittable::{HitRecord, Hittable};
+use crate::hittable_static::{HitRecord, Hittable};
 use crate::random_int;
 use crate::ray::Ray;
 use crate::vec3::Vec3;
 use std::sync::Arc;
 
+#[derive(Clone)]
 pub struct HittableList {
     pub objects: Vec<Arc<dyn Hittable>>,
 }
