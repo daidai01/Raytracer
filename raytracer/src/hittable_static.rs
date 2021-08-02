@@ -95,11 +95,11 @@ impl<T: Clone + Hittable> Hittable for Translate<T> {
     }
 
     fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
-        unimplemented!()
+        self.ptr.pdf_value(&(o.clone() - self.offset), v)
     }
 
     fn random(&self, o: &Vec3) -> Vec3 {
-        unimplemented!()
+        self.ptr.random(&(o.clone() - self.offset))
     }
 }
 
@@ -117,10 +117,10 @@ impl<T: Clone + Hittable> RotateY<T> {
         let radians = degrees_to_radians(angle);
         let sin = radians.sin();
         let cos = radians.cos();
-        let mut _hasbox = false;
+        let mut _has_box = false;
         let mut _bbox = AABB::new(Vec3::zero(), Vec3::zero());
         if let Some(temp_bbox) = p.clone().bounding_box(0.0, 1.0) {
-            _hasbox = true;
+            _has_box = true;
             _bbox = temp_bbox;
         }
         let mut min = Vec3::new(INF, INF, INF);
@@ -131,9 +131,9 @@ impl<T: Clone + Hittable> RotateY<T> {
                     let x = i as f64 * _bbox.maximum.x + (1.0 - i as f64) * _bbox.minimum.x;
                     let y = j as f64 * _bbox.maximum.y + (1.0 - j as f64) * _bbox.minimum.y;
                     let z = k as f64 * _bbox.maximum.z + (1.0 - k as f64) * _bbox.minimum.z;
-                    let newx = cos * x + sin * z;
-                    let newz = -sin * x + cos * z;
-                    let tester = Vec3::new(newx, y, newz);
+                    let new_x = cos * x + sin * z;
+                    let new_z = -sin * x + cos * z;
+                    let tester = Vec3::new(new_x, y, new_z);
                     min.x = min.x.min(tester.x);
                     max.x = max.x.max(tester.x);
                     min.y = min.y.min(tester.y);
@@ -147,7 +147,7 @@ impl<T: Clone + Hittable> RotateY<T> {
             ptr: p.clone(),
             sin_theta: sin,
             cos_theta: cos,
-            has_box: _hasbox,
+            has_box: _has_box,
             bbox: AABB::new(min, max),
         }
     }
@@ -187,11 +187,26 @@ impl<T: Clone + Hittable> Hittable for RotateY<T> {
     }
 
     fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
-        unimplemented!()
+        let temp_o = Vec3::new(
+            self.cos_theta * o.x + self.sin_theta * o.z,
+            o.y,
+            -self.sin_theta * o.x + self.cos_theta * o.z,
+        );
+        let temp_v = Vec3::new(
+            self.cos_theta * v.x + self.sin_theta * v.z,
+            v.y,
+            -self.sin_theta * v.x + self.cos_theta * v.z,
+        );
+        self.ptr.pdf_value(&temp_o, &temp_v)
     }
 
     fn random(&self, o: &Vec3) -> Vec3 {
-        unimplemented!()
+        let temp_o = Vec3::new(
+            self.cos_theta * o.x + self.sin_theta * o.z,
+            o.y,
+            -self.sin_theta * o.x + self.cos_theta * o.z,
+        );
+        self.random(&temp_o)
     }
 }
 
@@ -228,7 +243,9 @@ impl<B: Hittable, P: Material> ConstantMedium<B, P> {
     }
 }
 
-impl<B: Clone + Hittable, P: 'static + Clone + Material + Send + Sync> Hittable for ConstantMedium<B, P> {
+impl<B: Clone + Hittable, P: 'static + Clone + Material + Send + Sync> Hittable
+    for ConstantMedium<B, P>
+{
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         if let Some(mut rec1) = self.boundary.hit(r, -INF, INF) {
             if let Some(mut rec2) = self.boundary.hit(r, rec1.t + 0.0001, INF) {
@@ -271,14 +288,6 @@ impl<B: Clone + Hittable, P: 'static + Clone + Material + Send + Sync> Hittable 
     fn bounding_box(&self, time0: f64, time1: f64) -> Option<AABB> {
         self.boundary.bounding_box(time0, time1)
     }
-
-    fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
-        unimplemented!()
-    }
-
-    fn random(&self, o: &Vec3) -> Vec3 {
-        unimplemented!()
-    }
 }
 
 #[derive(Clone)]
@@ -304,13 +313,5 @@ impl<T: Clone + Hittable> Hittable for FlipFace<T> {
 
     fn bounding_box(&self, time0: f64, time1: f64) -> Option<AABB> {
         self.ptr.bounding_box(time0, time1)
-    }
-
-    fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
-        unimplemented!()
-    }
-
-    fn random(&self, o: &Vec3) -> Vec3 {
-        unimplemented!()
     }
 }
