@@ -77,7 +77,7 @@ impl<T: 'static + Clone + Material + Send + Sync> Hittable for Sphere<T> {
         if let Some(rec) = self.hit(&Ray::new(o.clone(), v.clone(), 0.0), 0.001, INF) {
             let cos_theta_max = (1.0
                 - self.radius * self.radius / (self.center - o.clone()).squared_length())
-                .sqrt();
+            .sqrt();
             let solid_angle = 2.0 * PI * (1.0 - cos_theta_max);
             1.0 / solid_angle
         } else {

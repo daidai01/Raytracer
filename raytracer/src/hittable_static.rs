@@ -218,22 +218,6 @@ pub struct ConstantMedium<B: Hittable, P: Material> {
 }
 
 impl<B: Hittable, P: Material> ConstantMedium<B, P> {
-    // pub fn new_with_arc<T: Texture>(b: B, d: f64, a: T) -> Self {
-    //     Self {
-    //         boundary: b,
-    //         neg_inv_density: -1.0 / d,
-    //         phase_function: Isotropic::<T>::new_with_arc(a),
-    //     }
-    // }
-    //
-    // pub fn new_with_col(b: B, d: f64, c: Vec3) -> Self {
-    //     Self {
-    //         boundary: b,
-    //         neg_inv_density: -1.0 / d,
-    //         phase_function: Isotropic::<SolidColor>::new_with_col(c),
-    //     }
-    // }
-
     pub fn new(b: B, d: f64, p: P) -> Self {
         Self {
             boundary: b,

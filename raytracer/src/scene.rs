@@ -1,14 +1,14 @@
 use crate::bvh_static::bvhNode;
 use crate::cornell_box_static::Box;
-use crate::hittable_static::{ConstantMedium, FlipFace, Hittable, RotateY, Translate};
 use crate::hittable_list::HittableList;
+use crate::hittable_static::{ConstantMedium, FlipFace, Hittable, RotateY, Translate};
 use crate::material_static::{Dielectric, DiffuseLight, Isotropic, Lambertian, Metal};
 use crate::rectangle_static::{xyRect, xzRect, yzRect};
 use crate::sphere_static::{MovingSphere, Sphere};
 use crate::texture_static::{CheckerTexture, ImageTexture, NoiseTexture, SolidColor};
-use std::sync::Arc;
 use crate::vec3::Vec3;
 use crate::{random_0_1, random_min_max};
+use std::sync::Arc;
 
 pub fn random_scene() -> HittableList {
     let mut world = HittableList::new();
@@ -174,11 +174,7 @@ pub fn cornell_box() -> HittableList {
         555.0,
         white.clone(),
     )));
-    let box1_temp1 = Box::new(
-        Vec3::zero(),
-        Vec3::new(165.0, 330.0, 165.0),
-        white.clone(),
-    );
+    let box1_temp1 = Box::new(Vec3::zero(), Vec3::new(165.0, 330.0, 165.0), white.clone());
     // let aluminum = Arc::new(Metal::new(Vec3::new(0.8, 0.85, 0.88), 0.0));
     // let mut box1: Arc<dyn Hittable> = Arc::new(Box::new(
     //     Vec3::zero(),
@@ -186,7 +182,8 @@ pub fn cornell_box() -> HittableList {
     //     aluminum,
     // ));
     let box1_temp2 = RotateY::new(box1_temp1, 15.0);
-    let box1: Arc<dyn Hittable> = Arc::new(Translate::new(box1_temp2, Vec3::new(265.0, 0.0, 295.0)));
+    let box1: Arc<dyn Hittable> =
+        Arc::new(Translate::new(box1_temp2, Vec3::new(265.0, 0.0, 295.0)));
     objects.add(box1);
     // let mut box2: Arc<dyn Hittable> = Arc::new(Box::new(
     //     Vec3::zero(),
@@ -240,11 +237,7 @@ pub fn cornell_smoke() -> HittableList {
         555.0,
         white.clone(),
     )));
-    let box1_temp1 = Box::new(
-        Vec3::zero(),
-        Vec3::new(165.0, 330.0, 165.0),
-        white.clone(),
-    );
+    let box1_temp1 = Box::new(Vec3::zero(), Vec3::new(165.0, 330.0, 165.0), white.clone());
     let box1_temp2 = RotateY::new(box1_temp1, 15.0);
     let box1 = Translate::new(box1_temp2, Vec3::new(265.0, 0.0, 295.0));
     objects.add(Arc::new(ConstantMedium::new(
@@ -252,11 +245,7 @@ pub fn cornell_smoke() -> HittableList {
         0.01,
         Isotropic::new(SolidColor::new_with_vec(Vec3::zero())),
     )));
-    let box2_temp1 = Box::new(
-        Vec3::zero(),
-        Vec3::new(165.0, 165.0, 165.0),
-        white.clone(),
-    );
+    let box2_temp1 = Box::new(Vec3::zero(), Vec3::new(165.0, 165.0, 165.0), white.clone());
     let box2_temp2 = RotateY::new(box2_temp1, -18.0);
     let box2 = Translate::new(box2_temp2, Vec3::new(130.0, 0.0, 65.0));
     objects.add(Arc::new(ConstantMedium::new(
@@ -315,30 +304,20 @@ pub fn final_scene() -> HittableList {
         50.0,
         Metal::new(Vec3::new(0.8, 0.8, 0.9), 1.0),
     )));
-    let mut boundary = Sphere::new(
-        Vec3::new(360.0, 150.0, 145.0),
-        70.0,
-        Dielectric::new(1.5),
-    );
+    let mut boundary = Sphere::new(Vec3::new(360.0, 150.0, 145.0), 70.0, Dielectric::new(1.5));
     objects.add(Arc::new(boundary.clone()));
     objects.add(Arc::new(ConstantMedium::new(
         boundary,
         0.2,
         Isotropic::new(SolidColor::new_with_col(0.2, 0.4, 0.9)),
     )));
-    boundary = Sphere::new(
-        Vec3::zero(),
-        5000.0,
-        Dielectric::new(1.5),
-    );
+    boundary = Sphere::new(Vec3::zero(), 5000.0, Dielectric::new(1.5));
     objects.add(Arc::new(ConstantMedium::new(
         boundary,
         0.0001,
         Isotropic::new(SolidColor::new_with_vec(Vec3::ones())),
     )));
-    let emat = Lambertian::new(ImageTexture::new(
-        "earthmap.jpg",
-    ));
+    let emat = Lambertian::new(ImageTexture::new("earthmap.jpg"));
     objects.add(Arc::new(Sphere::new(
         Vec3::new(400.0, 200.0, 400.0),
         100.0,

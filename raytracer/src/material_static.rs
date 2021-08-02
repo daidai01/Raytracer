@@ -1,5 +1,5 @@
 use crate::hittable_static::HitRecord;
-use crate::pdf::{CosinePDF, PDF};
+use crate::pdf_static::{CosinePDF, PDF};
 use crate::ray::Ray;
 use crate::texture_static::Texture;
 use crate::vec3::Vec3;
@@ -45,12 +45,6 @@ pub struct Lambertian<T: Texture> {
 }
 
 impl<T: Texture> Lambertian<T> {
-    // pub fn new_with_vec(a: Vec3) -> Self {
-    //     Self {
-    //         albedo: SolidColor::new_with_vec(a),
-    //     }
-    // }
-
     pub fn new(a: T) -> Self {
         Self { albedo: a }
     }
@@ -168,12 +162,6 @@ impl<T: Texture> DiffuseLight<T> {
     pub fn new(a: T) -> Self {
         Self { emit: a }
     }
-
-    // pub fn new_with_vec(c: Vec3) -> Self {
-    //     Self {
-    //         emit: SolidColor::new_with_vec(c),
-    //     }
-    // }
 }
 
 impl<T: Texture> Material for DiffuseLight<T> {
@@ -196,12 +184,6 @@ pub struct Isotropic<T: Texture> {
 }
 
 impl<T: Texture> Isotropic<T> {
-    // pub fn new_with_col(c: Vec3) -> Self {
-    //     Self {
-    //         albedo: SolidColor::new_with_vec(c),
-    //     }
-    // }
-
     pub fn new(a: T) -> Self {
         Self { albedo: a }
     }

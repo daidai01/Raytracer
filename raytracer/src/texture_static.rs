@@ -45,16 +45,6 @@ impl<O: Texture, E: Texture> CheckerTexture<O, E> {
             odd: _odd,
         }
     }
-
-    // pub fn new_with_col(c1: Vec3, c2: Vec3) -> Self {
-    //     // type O = SolidColor;
-    //     // type E = SolidColor;
-    //     // Self::new_with_arc(SolidColor::new_with_vec(c1), SolidColor::new_with_vec(c2))
-    //     Self {
-    //         even: SolidColor::new_with_vec(c1),
-    //         odd: SolidColor::new_with_vec(c2),
-    //     }
-    // }
 }
 
 impl<O: Texture, E: Texture> Texture for CheckerTexture<O, E> {
