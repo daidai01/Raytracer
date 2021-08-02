@@ -29,7 +29,7 @@ impl<T: Material> xyRect<T> {
     }
 }
 
-impl<T: 'static + Clone + Material> Hittable for xyRect<T> {
+impl<T: 'static + Clone + Material + Send + Sync> Hittable for xyRect<T> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.z) / r.dir.z;
         if t < t_min || t > t_max {
@@ -86,7 +86,7 @@ impl<T: Material> xzRect<T> {
     }
 }
 
-impl<T: 'static + Clone + Material> Hittable for xzRect<T> {
+impl<T: 'static + Clone + Material + Send + Sync> Hittable for xzRect<T> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.y) / r.dir.y;
         if t < t_min || t > t_max {
@@ -163,7 +163,7 @@ impl<T: Material> yzRect<T> {
     }
 }
 
-impl<T: 'static + Clone + Material> Hittable for yzRect<T> {
+impl<T: 'static + Clone + Material + Send + Sync> Hittable for yzRect<T> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.x) / r.dir.x;
         if t < t_min || t > t_max {

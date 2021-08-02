@@ -1,9 +1,10 @@
 use crate::aabb::AABB;
 use crate::hittable_static::{HitRecord, Hittable};
 use crate::material_static::Material;
+use crate::onb::ONB;
 use crate::ray::Ray;
 use crate::vec3::Vec3;
-use crate::{PI, INF, ONB};
+use crate::{INF, PI};
 use std::sync::Arc;
 
 #[derive(Clone)]
@@ -33,7 +34,7 @@ impl<T: Material> Sphere<T> {
     }
 }
 
-impl<T: 'static + Clone + Material> Hittable for Sphere<T> {
+impl<T: 'static + Clone + Material + Send + Sync> Hittable for Sphere<T> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let oc = r.orig - self.center;
         let a = r.dir.squared_length();
@@ -104,14 +105,7 @@ pub struct MovingSphere<T: Material> {
 }
 
 impl<T: Material> MovingSphere<T> {
-    pub fn new(
-        cen0: Vec3,
-        cen1: Vec3,
-        _time0: f64,
-        _time1: f64,
-        r: f64,
-        m: T,
-    ) -> Self {
+    pub fn new(cen0: Vec3, cen1: Vec3, _time0: f64, _time1: f64, r: f64, m: T) -> Self {
         Self {
             center0: cen0,
             center1: cen1,
@@ -128,7 +122,7 @@ impl<T: Material> MovingSphere<T> {
     }
 }
 
-impl<T: 'static + Clone + Material> Hittable for MovingSphere<T> {
+impl<T: 'static + Clone + Material + Send + Sync> Hittable for MovingSphere<T> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let oc = r.orig - self.center(r.tm);
         let a = r.dir.squared_length();

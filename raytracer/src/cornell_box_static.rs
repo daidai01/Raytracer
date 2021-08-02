@@ -1,6 +1,6 @@
 use crate::aabb::AABB;
-use crate::hittable_static::{HitRecord, Hittable};
 use crate::hittable_list::HittableList;
+use crate::hittable_static::{HitRecord, Hittable};
 use crate::material_static::Material;
 use crate::ray::Ray;
 use crate::rectangle_static::{xyRect, xzRect, yzRect};
@@ -15,7 +15,7 @@ pub struct Box {
 }
 
 impl Box {
-    pub fn new<T: 'static + Material + Clone>(p0: Vec3, p1: Vec3, ptr: T) -> Self {
+    pub fn new<T: 'static + Material + Clone + Sync + Send>(p0: Vec3, p1: Vec3, ptr: T) -> Self {
         let mut _box = Self {
             box_min: p0,
             box_max: p1,

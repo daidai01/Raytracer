@@ -2,6 +2,7 @@ use crate::vec3::Vec3;
 use crate::Ray;
 use crate::{degrees_to_radians, random_min_max};
 
+#[derive(Clone,Copy)]
 pub struct Camera {
     origin: Vec3,
     lower_left_corner: Vec3,

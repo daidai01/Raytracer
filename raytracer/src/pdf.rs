@@ -1,6 +1,7 @@
 // use crate::onb::ONB;
 // use crate::vec3::Vec3;
 // use crate::{Hittable, random_0_1, PI};
+// use std::sync::Arc;
 //
 // pub trait PDF {
 //     fn value(&self, direction: &Vec3) -> f64;
@@ -8,6 +9,7 @@
 //     fn generate(&self) -> Vec3;
 // }
 //
+// #[derive(Clone)]
 // pub struct CosinePDF {
 //     pub uvw: ONB,
 // }
@@ -35,6 +37,7 @@
 //     }
 // }
 //
+// #[derive(Clone)]
 // pub struct HittablePDF<T: Hittable> {
 //     pub orig: Vec3,
 //     pub ptr: T,
@@ -59,6 +62,7 @@
 //     }
 // }
 //
+// #[derive(Clone)]
 // pub struct MixturePDF<U: PDF, V: PDF> {
 //     p0: U,
 //     p1: V,
@@ -86,7 +90,7 @@
 
 use crate::onb::ONB;
 use crate::vec3::Vec3;
-use crate::{Hittable, random_0_1, PI};
+use crate::{Hittable, random_0_1, PI, HittableList};
 use std::sync::Arc;
 
 pub trait PDF {
@@ -124,11 +128,11 @@ impl PDF for CosinePDF {
 
 pub struct HittablePDF {
     pub orig: Vec3,
-    pub ptr: Arc<dyn Hittable>,
+    pub ptr: Arc<HittableList>,
 }
 
 impl HittablePDF {
-    pub fn new(p: &Arc<dyn Hittable>, origin: &Vec3) -> Self {
+    pub fn new(p: &Arc<HittableList>, origin: &Vec3) -> Self {
         Self {
             ptr: p.clone(),
             orig: origin.clone(),
@@ -147,12 +151,12 @@ impl PDF for HittablePDF {
 }
 
 pub struct MixturePDF {
-    p0: Arc<dyn PDF>,
+    p0: Arc<PDF>,
     p1: Arc<dyn PDF>,
 }
 
 impl MixturePDF {
-    pub fn new(p0: Arc<dyn PDF>, p1: Arc<dyn PDF>) -> Self {
+    pub fn new(p0: Arc<PDF>, p1: Arc<dyn PDF>) -> Self {
         Self { p0, p1 }
     }
 }
@@ -170,4 +174,3 @@ impl PDF for MixturePDF {
         }
     }
 }
-

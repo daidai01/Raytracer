@@ -6,7 +6,7 @@ use crate::vec3::Vec3;
 use crate::{degrees_to_radians, random_0_1, INF};
 use std::sync::Arc;
 
-pub trait Hittable {
+pub trait Hittable: Sync + Send {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
 
     fn bounding_box(&self, time0: f64, time1: f64) -> Option<AABB>;
@@ -93,6 +93,14 @@ impl<T: Clone + Hittable> Hittable for Translate<T> {
             None
         }
     }
+
+    fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
+        unimplemented!()
+    }
+
+    fn random(&self, o: &Vec3) -> Vec3 {
+        unimplemented!()
+    }
 }
 
 #[derive(Clone)]
@@ -177,6 +185,14 @@ impl<T: Clone + Hittable> Hittable for RotateY<T> {
             None
         }
     }
+
+    fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
+        unimplemented!()
+    }
+
+    fn random(&self, o: &Vec3) -> Vec3 {
+        unimplemented!()
+    }
 }
 
 #[derive(Clone)]
@@ -212,7 +228,7 @@ impl<B: Hittable, P: Material> ConstantMedium<B, P> {
     }
 }
 
-impl<B: Clone + Hittable, P: 'static + Clone + Material> Hittable for ConstantMedium<B, P> {
+impl<B: Clone + Hittable, P: 'static + Clone + Material + Send + Sync> Hittable for ConstantMedium<B, P> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         if let Some(mut rec1) = self.boundary.hit(r, -INF, INF) {
             if let Some(mut rec2) = self.boundary.hit(r, rec1.t + 0.0001, INF) {
@@ -255,6 +271,14 @@ impl<B: Clone + Hittable, P: 'static + Clone + Material> Hittable for ConstantMe
     fn bounding_box(&self, time0: f64, time1: f64) -> Option<AABB> {
         self.boundary.bounding_box(time0, time1)
     }
+
+    fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
+        unimplemented!()
+    }
+
+    fn random(&self, o: &Vec3) -> Vec3 {
+        unimplemented!()
+    }
 }
 
 #[derive(Clone)]
@@ -280,5 +304,13 @@ impl<T: Clone + Hittable> Hittable for FlipFace<T> {
 
     fn bounding_box(&self, time0: f64, time1: f64) -> Option<AABB> {
         self.ptr.bounding_box(time0, time1)
+    }
+
+    fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
+        unimplemented!()
+    }
+
+    fn random(&self, o: &Vec3) -> Vec3 {
+        unimplemented!()
     }
 }

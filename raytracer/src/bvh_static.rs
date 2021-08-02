@@ -1,13 +1,13 @@
 use crate::aabb::AABB;
-use crate::hittable_static::{HitRecord, Hittable};
 use crate::hittable_list::HittableList;
+use crate::hittable_static::{HitRecord, Hittable};
 use crate::material_static::Lambertian;
 use crate::random_int;
 use crate::ray::Ray;
 use crate::sphere_static::Sphere;
+use crate::texture_static::SolidColor;
 use crate::vec3::Vec3;
 use std::sync::Arc;
-use crate::texture_static::SolidColor;
 
 #[derive(Clone)]
 pub struct bvhNode {
