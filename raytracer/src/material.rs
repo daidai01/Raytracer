@@ -1,5 +1,4 @@
 use crate::hittable::HitRecord;
-use crate::onb::ONB;
 use crate::pdf::{CosinePDF, PDF};
 use crate::ray::Ray;
 use crate::texture::{SolidColor, Texture};

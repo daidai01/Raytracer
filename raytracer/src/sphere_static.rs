@@ -1,3 +1,5 @@
+#![allow(clippy::suspicious_operation_groupings)]
+
 use crate::aabb::AABB;
 use crate::hittable_static::{HitRecord, Hittable};
 use crate::material_static::Material;
@@ -42,7 +44,7 @@ impl<T: 'static + Clone + Material + Send + Sync> Hittable for Sphere<T> {
         let c = oc.squared_length() - self.radius * self.radius;
         let discriminant = half_b * half_b - a * c;
         if discriminant < 0.0 {
-            return None;
+            None
         } else {
             let sqrtd = discriminant.sqrt();
             let mut root = (-half_b - sqrtd) / a;
@@ -130,7 +132,7 @@ impl<T: 'static + Clone + Material + Send + Sync> Hittable for MovingSphere<T> {
         let c = oc.squared_length() - self.radius * self.radius;
         let discriminant = half_b * half_b - a * c;
         if discriminant < 0.0 {
-            return None;
+            None
         } else {
             let sqrtd = discriminant.sqrt();
             let mut root = (-half_b - sqrtd) / a;

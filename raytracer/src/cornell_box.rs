@@ -3,7 +3,7 @@ use crate::hittable::{HitRecord, Hittable};
 use crate::hittable_list::HittableList;
 use crate::material::Material;
 use crate::ray::Ray;
-use crate::rectangle::{xyRect, xzRect, yzRect};
+use crate::rectangle::{XyRect, XzRect, YzRect};
 use crate::vec3::Vec3;
 use std::sync::Arc;
 
@@ -20,7 +20,7 @@ impl Box {
             box_max: p1,
             sides: HittableList::new(),
         };
-        _box.sides.add(Arc::new(xyRect::new(
+        _box.sides.add(Arc::new(XyRect::new(
             p0.x,
             p1.x,
             p0.y,
@@ -28,7 +28,7 @@ impl Box {
             p1.z,
             ptr.clone(),
         )));
-        _box.sides.add(Arc::new(xyRect::new(
+        _box.sides.add(Arc::new(XyRect::new(
             p0.x,
             p1.x,
             p0.y,
@@ -36,7 +36,7 @@ impl Box {
             p0.z,
             ptr.clone(),
         )));
-        _box.sides.add(Arc::new(xzRect::new(
+        _box.sides.add(Arc::new(XzRect::new(
             p0.x,
             p1.x,
             p0.z,
@@ -44,7 +44,7 @@ impl Box {
             p1.y,
             ptr.clone(),
         )));
-        _box.sides.add(Arc::new(xzRect::new(
+        _box.sides.add(Arc::new(XzRect::new(
             p0.x,
             p1.x,
             p0.z,
@@ -52,7 +52,7 @@ impl Box {
             p0.y,
             ptr.clone(),
         )));
-        _box.sides.add(Arc::new(yzRect::new(
+        _box.sides.add(Arc::new(YzRect::new(
             p0.y,
             p1.y,
             p0.z,
@@ -60,7 +60,7 @@ impl Box {
             p1.x,
             ptr.clone(),
         )));
-        _box.sides.add(Arc::new(yzRect::new(
+        _box.sides.add(Arc::new(YzRect::new(
             p0.y,
             p1.y,
             p0.z,

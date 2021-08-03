@@ -6,7 +6,7 @@ use crate::vec3::Vec3;
 use crate::{random_min_max, INF};
 use std::sync::Arc;
 
-pub struct xyRect {
+pub struct XyRect {
     mp: Arc<dyn Material>,
     x0: f64,
     y0: f64,
@@ -15,7 +15,7 @@ pub struct xyRect {
     k: f64,
 }
 
-impl xyRect {
+impl XyRect {
     pub fn new(_x0: f64, _x1: f64, _y0: f64, _y1: f64, _k: f64, mat: Arc<dyn Material>) -> Self {
         Self {
             mp: mat,
@@ -28,7 +28,7 @@ impl xyRect {
     }
 }
 
-impl Hittable for xyRect {
+impl Hittable for XyRect {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.z) / r.dir.z;
         if t < t_min || t > t_max {
@@ -62,7 +62,7 @@ impl Hittable for xyRect {
     }
 }
 
-pub struct xzRect {
+pub struct XzRect {
     mp: Arc<dyn Material>,
     x0: f64,
     z0: f64,
@@ -71,7 +71,7 @@ pub struct xzRect {
     k: f64,
 }
 
-impl xzRect {
+impl XzRect {
     pub fn new(_x0: f64, _x1: f64, _z0: f64, _z1: f64, _k: f64, mat: Arc<dyn Material>) -> Self {
         Self {
             mp: mat,
@@ -84,7 +84,7 @@ impl xzRect {
     }
 }
 
-impl Hittable for xzRect {
+impl Hittable for XzRect {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.y) / r.dir.y;
         if t < t_min || t > t_max {
@@ -138,7 +138,7 @@ impl Hittable for xzRect {
     }
 }
 
-pub struct yzRect {
+pub struct YzRect {
     mp: Arc<dyn Material>,
     y0: f64,
     z0: f64,
@@ -147,7 +147,7 @@ pub struct yzRect {
     k: f64,
 }
 
-impl yzRect {
+impl YzRect {
     pub fn new(_y0: f64, _y1: f64, _z0: f64, _z1: f64, _k: f64, mat: Arc<dyn Material>) -> Self {
         Self {
             mp: mat,
@@ -160,7 +160,7 @@ impl yzRect {
     }
 }
 
-impl Hittable for yzRect {
+impl Hittable for YzRect {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.x) / r.dir.x;
         if t < t_min || t > t_max {

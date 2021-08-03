@@ -1,9 +1,9 @@
-use crate::bvh_static::bvhNode;
+use crate::bvh_static::BvhNode;
 use crate::cornell_box_static::Box;
 use crate::hittable_list::HittableList;
 use crate::hittable_static::{ConstantMedium, FlipFace, Hittable, RotateY, Translate};
 use crate::material_static::{Dielectric, DiffuseLight, Isotropic, Lambertian, Metal};
-use crate::rectangle_static::{xyRect, xzRect, yzRect};
+use crate::rectangle_static::{XyRect, XzRect, YzRect};
 use crate::sphere_static::{MovingSphere, Sphere};
 use crate::texture_static::{CheckerTexture, ImageTexture, NoiseTexture, SolidColor};
 use crate::vec3::Vec3;
@@ -135,7 +135,7 @@ pub fn simple_light() -> HittableList {
         Lambertian::new(pertext.clone()),
     )));
     let difflight = DiffuseLight::new(SolidColor::new_with_col(4.0, 4.0, 4.0));
-    objects.add(Arc::new(xyRect::new(3.0, 5.0, 1.0, 3.0, -2.0, difflight)));
+    objects.add(Arc::new(XyRect::new(3.0, 5.0, 1.0, 3.0, -2.0, difflight)));
     objects
 }
 
@@ -145,12 +145,12 @@ pub fn cornell_box() -> HittableList {
     let white = Lambertian::new(SolidColor::new_with_col(0.73, 0.73, 0.73));
     let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
     let light = DiffuseLight::new(SolidColor::new_with_col(15.0, 15.0, 15.0));
-    objects.add(Arc::new(yzRect::new(0.0, 555.0, 0.0, 555.0, 555.0, green)));
-    objects.add(Arc::new(yzRect::new(0.0, 555.0, 0.0, 555.0, 0.0, red)));
-    objects.add(Arc::new(FlipFace::new(xzRect::new(
+    objects.add(Arc::new(YzRect::new(0.0, 555.0, 0.0, 555.0, 555.0, green)));
+    objects.add(Arc::new(YzRect::new(0.0, 555.0, 0.0, 555.0, 0.0, red)));
+    objects.add(Arc::new(FlipFace::new(XzRect::new(
         213.0, 343.0, 227.0, 332.0, 554.0, light,
     ))));
-    objects.add(Arc::new(xzRect::new(
+    objects.add(Arc::new(XzRect::new(
         0.0,
         555.0,
         0.0,
@@ -158,7 +158,7 @@ pub fn cornell_box() -> HittableList {
         0.0,
         white.clone(),
     )));
-    objects.add(Arc::new(xzRect::new(
+    objects.add(Arc::new(XzRect::new(
         0.0,
         555.0,
         0.0,
@@ -166,7 +166,7 @@ pub fn cornell_box() -> HittableList {
         555.0,
         white.clone(),
     )));
-    objects.add(Arc::new(xyRect::new(
+    objects.add(Arc::new(XyRect::new(
         0.0,
         555.0,
         0.0,
@@ -208,12 +208,12 @@ pub fn cornell_smoke() -> HittableList {
     let white = Lambertian::new(SolidColor::new_with_col(0.73, 0.73, 0.73));
     let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
     let light = DiffuseLight::new(SolidColor::new_with_col(7.0, 7.0, 7.0));
-    objects.add(Arc::new(yzRect::new(0.0, 555.0, 0.0, 555.0, 555.0, green)));
-    objects.add(Arc::new(yzRect::new(0.0, 555.0, 0.0, 555.0, 0.0, red)));
-    objects.add(Arc::new(xzRect::new(
+    objects.add(Arc::new(YzRect::new(0.0, 555.0, 0.0, 555.0, 555.0, green)));
+    objects.add(Arc::new(YzRect::new(0.0, 555.0, 0.0, 555.0, 0.0, red)));
+    objects.add(Arc::new(XzRect::new(
         113.0, 443.0, 127.0, 432.0, 554.0, light,
     )));
-    objects.add(Arc::new(xzRect::new(
+    objects.add(Arc::new(XzRect::new(
         0.0,
         555.0,
         0.0,
@@ -221,7 +221,7 @@ pub fn cornell_smoke() -> HittableList {
         0.0,
         white.clone(),
     )));
-    objects.add(Arc::new(xzRect::new(
+    objects.add(Arc::new(XzRect::new(
         0.0,
         555.0,
         0.0,
@@ -229,7 +229,7 @@ pub fn cornell_smoke() -> HittableList {
         555.0,
         white.clone(),
     )));
-    objects.add(Arc::new(xyRect::new(
+    objects.add(Arc::new(XyRect::new(
         0.0,
         555.0,
         0.0,
@@ -278,9 +278,9 @@ pub fn final_scene() -> HittableList {
     }
 
     let mut objects = HittableList::new();
-    objects.add(Arc::new(bvhNode::new_with_list(&mut boxes1, 0.0, 1.0)));
+    objects.add(Arc::new(BvhNode::new_with_list(&mut boxes1, 0.0, 1.0)));
     let light = DiffuseLight::new(SolidColor::new_with_col(7.0, 7.0, 7.0));
-    objects.add(Arc::new(xzRect::new(
+    objects.add(Arc::new(XzRect::new(
         123.0, 423.0, 147.0, 412.0, 554.0, light,
     )));
     let center1 = Vec3::new(400.0, 400.0, 200.0);
@@ -339,7 +339,7 @@ pub fn final_scene() -> HittableList {
             white.clone(),
         )));
     }
-    let arc_bvh = bvhNode::new_with_list(&mut boxes2, 0.0, 1.0);
+    let arc_bvh = BvhNode::new_with_list(&mut boxes2, 0.0, 1.0);
     let arc_rotate = RotateY::new(arc_bvh, 15.0);
     objects.add(Arc::new(Translate::new(
         arc_rotate,

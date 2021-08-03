@@ -1,3 +1,5 @@
+#![allow(clippy::collapsible_else_if)]
+
 use crate::aabb::AABB;
 use crate::hittable::{HitRecord, Hittable};
 use crate::hittable_list::HittableList;
@@ -8,13 +10,13 @@ use crate::sphere::Sphere;
 use crate::vec3::Vec3;
 use std::sync::Arc;
 
-pub struct bvhNode {
+pub struct BvhNode {
     pub left: Arc<dyn Hittable>,
     pub right: Arc<dyn Hittable>,
     pub my_box: AABB,
 }
 
-impl bvhNode {
+impl BvhNode {
     pub fn new_with_list(list: &mut HittableList, time0: f64, time1: f64) -> Self {
         let len = list.objects.len();
         Self::new_with_vec(&mut list.objects, 0, len, time0, time1)
@@ -27,7 +29,7 @@ impl bvhNode {
         time0: f64,
         time1: f64,
     ) -> Self {
-        let mut node = bvhNode {
+        let mut node = BvhNode {
             left: Arc::new(Sphere::new(
                 Vec3::zero(),
                 0.0,
@@ -60,8 +62,8 @@ impl bvhNode {
                     .unwrap()
             });
             let mid = start + object_span / 2;
-            node.left = Arc::new(bvhNode::new_with_vec(objects, start, mid, time0, time1));
-            node.right = Arc::new(bvhNode::new_with_vec(objects, mid, end, time0, time1));
+            node.left = Arc::new(BvhNode::new_with_vec(objects, start, mid, time0, time1));
+            node.right = Arc::new(BvhNode::new_with_vec(objects, mid, end, time0, time1));
         }
         if let Some(box_left) = node.left.bounding_box(time0, time1) {
             if let Some(box_right) = node.right.bounding_box(time0, time1) {
@@ -96,7 +98,7 @@ impl bvhNode {
     }
 }
 
-impl Hittable for bvhNode {
+impl Hittable for BvhNode {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         if !self.my_box.hit(r, t_min, t_max) {
             return None;

@@ -1,7 +1,19 @@
-// cargo fmt -- --check
-// cargo clippy --all-targets
-// cargo clippy --all-features
-// cargo clippy -- -D warnings
+#![allow(clippy::float_cmp)]
+#![allow(clippy::eq_op)]
+#![allow(clippy::many_single_char_names)]
+#![allow(unused_variables)]
+#![allow(unused_assignments)]
+#![allow(unused_mut)]
+#![allow(clippy::let_and_return)]
+#![allow(clippy::clone_on_copy)]
+#![allow(non_snake_case)]
+#![allow(clippy::redundant_clone)]
+#![allow(clippy::manual_swap)]
+#![allow(clippy::new_without_default)]
+#![allow(clippy::manual_map)]
+#![allow(dead_code)]
+#![allow(clippy::too_many_arguments)]
+#![allow(clippy::needless_return)]
 
 mod aabb;
 mod bvh_static;
@@ -29,7 +41,7 @@ pub use material_static::Lambertian;
 pub use pdf_static::{HittablePDF, MixturePDF, PDF};
 use rand::{thread_rng, Rng};
 pub use ray::Ray;
-pub use rectangle_static::xzRect;
+pub use rectangle_static::XzRect;
 pub use sphere_static::Sphere;
 use std::ops::Deref;
 use std::sync::mpsc::channel;
@@ -95,7 +107,7 @@ fn main() {
         }
         6 => {
             world = scene::cornell_box();
-            lights.add(Arc::new(xzRect::new(
+            lights.add(Arc::new(XzRect::new(
                 213.0,
                 343.0,
                 227.0,

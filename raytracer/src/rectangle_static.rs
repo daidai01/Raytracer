@@ -7,7 +7,7 @@ use crate::{random_min_max, INF};
 use std::sync::Arc;
 
 #[derive(Clone)]
-pub struct xyRect<T: Material> {
+pub struct XyRect<T: Material> {
     mp: T,
     x0: f64,
     y0: f64,
@@ -16,7 +16,7 @@ pub struct xyRect<T: Material> {
     k: f64,
 }
 
-impl<T: Material> xyRect<T> {
+impl<T: Material> XyRect<T> {
     pub fn new(_x0: f64, _x1: f64, _y0: f64, _y1: f64, _k: f64, mat: T) -> Self {
         Self {
             mp: mat,
@@ -29,7 +29,7 @@ impl<T: Material> xyRect<T> {
     }
 }
 
-impl<T: 'static + Clone + Material + Send + Sync> Hittable for xyRect<T> {
+impl<T: 'static + Clone + Material + Send + Sync> Hittable for XyRect<T> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.z) / r.dir.z;
         if t < t_min || t > t_max {
@@ -64,7 +64,7 @@ impl<T: 'static + Clone + Material + Send + Sync> Hittable for xyRect<T> {
 }
 
 #[derive(Clone)]
-pub struct xzRect<T: Material> {
+pub struct XzRect<T: Material> {
     mp: T,
     x0: f64,
     z0: f64,
@@ -73,7 +73,7 @@ pub struct xzRect<T: Material> {
     k: f64,
 }
 
-impl<T: Material> xzRect<T> {
+impl<T: Material> XzRect<T> {
     pub fn new(_x0: f64, _x1: f64, _z0: f64, _z1: f64, _k: f64, mat: T) -> Self {
         Self {
             mp: mat,
@@ -86,7 +86,7 @@ impl<T: Material> xzRect<T> {
     }
 }
 
-impl<T: 'static + Clone + Material + Send + Sync> Hittable for xzRect<T> {
+impl<T: 'static + Clone + Material + Send + Sync> Hittable for XzRect<T> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.y) / r.dir.y;
         if t < t_min || t > t_max {
@@ -141,7 +141,7 @@ impl<T: 'static + Clone + Material + Send + Sync> Hittable for xzRect<T> {
 }
 
 #[derive(Clone)]
-pub struct yzRect<T: Material> {
+pub struct YzRect<T: Material> {
     mp: T,
     y0: f64,
     z0: f64,
@@ -150,7 +150,7 @@ pub struct yzRect<T: Material> {
     k: f64,
 }
 
-impl<T: Material> yzRect<T> {
+impl<T: Material> YzRect<T> {
     pub fn new(_y0: f64, _y1: f64, _z0: f64, _z1: f64, _k: f64, mat: T) -> Self {
         Self {
             mp: mat,
@@ -163,7 +163,7 @@ impl<T: Material> yzRect<T> {
     }
 }
 
-impl<T: 'static + Clone + Material + Send + Sync> Hittable for yzRect<T> {
+impl<T: 'static + Clone + Material + Send + Sync> Hittable for YzRect<T> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let t = (self.k - r.orig.x) / r.dir.x;
         if t < t_min || t > t_max {

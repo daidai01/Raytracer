@@ -1,7 +1,6 @@
 use crate::onb::ONB;
 use crate::vec3::Vec3;
 use crate::{random_0_1, Hittable, PI};
-use std::sync::Arc;
 
 pub trait PDF: Sync + Send {
     fn value(&self, direction: &Vec3) -> f64;

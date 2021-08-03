@@ -1,9 +1,11 @@
+#![allow(clippy::suspicious_operation_groupings)]
+
 use crate::aabb::AABB;
 use crate::hittable::{HitRecord, Hittable};
 use crate::material::Material;
 use crate::ray::Ray;
 use crate::vec3::Vec3;
-use crate::{PI, INF, ONB};
+use crate::{INF, ONB, PI};
 use std::sync::Arc;
 
 pub struct Sphere {
@@ -74,9 +76,8 @@ impl Hittable for Sphere {
     fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
         if let Some(rec) = self.hit(&Ray::new(o.clone(), v.clone(), 0.0), 0.001, INF) {
             let cos_theta_max = (1.0
-                - self.radius * self.radius / (self.center
-                - o.clone()).squared_length())
-                .sqrt();
+                - self.radius * self.radius / (self.center - o.clone()).squared_length())
+            .sqrt();
             let solid_angle = 2.0 * PI * (1.0 - cos_theta_max);
             1.0 / solid_angle
         } else {
