@@ -62,18 +62,18 @@ impl<T: Hittable> PDF for HittablePDF<T> {
 }
 
 #[derive(Clone)]
-pub struct MixturePDF<'a, U: PDF, V: PDF> {
-    p0: &'a U,
-    p1: &'a V,
+pub struct MixturePDF<U: PDF, V: PDF> {
+    p0: U,
+    p1: V,
 }
 
-impl<'a, U: PDF, V: PDF> MixturePDF<'a, U, V> {
-    pub fn new(p0: &'a U, p1: &'a V) -> Self {
+impl<U: PDF, V: PDF> MixturePDF<U, V> {
+    pub fn new(p0: U, p1: V) -> Self {
         Self { p0, p1 }
     }
 }
 
-impl<'a, U: PDF, V: PDF> PDF for MixturePDF<'a, U, V> {
+impl<U: PDF, V: PDF> PDF for MixturePDF<U, V> {
     fn value(&self, direction: &Vec3) -> f64 {
         0.5 * self.p0.value(direction) + 0.5 * self.p1.value(direction)
     }
