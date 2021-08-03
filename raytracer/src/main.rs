@@ -265,7 +265,7 @@ fn ray_color(
                 )
             } else {
                 let light_ptr = HittablePDF::new(lights.deref().clone(), &rec.p);
-                let p = MixturePDF::new(&light_ptr, s_rec.pdf_ptr.deref());
+                let p = MixturePDF::new(&light_ptr, &s_rec.pdf_ptr);
                 let scattered = Ray::new(rec.p, p.generate(), r.tm);
                 let pdf_val = p.value(&scattered.dir);
                 emitted

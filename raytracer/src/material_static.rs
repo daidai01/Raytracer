@@ -1,16 +1,15 @@
 use crate::hittable_static::HitRecord;
-use crate::pdf_static::{CosinePDF, PDF};
+use crate::pdf_static::CosinePDF;
 use crate::ray::Ray;
 use crate::texture_static::Texture;
 use crate::vec3::Vec3;
 use crate::{random_0_1, PI};
 use num_traits::pow;
-use std::sync::Arc;
 
 pub struct ScatterRecord {
     pub attenuation: Vec3,
     pub specular_ray: Ray,
-    pub pdf_ptr: Arc<dyn PDF>,
+    pub pdf_ptr: CosinePDF,
     pub is_specular: bool,
 }
 
@@ -19,7 +18,7 @@ impl ScatterRecord {
         Self {
             attenuation: Vec3::zero(),
             specular_ray: Ray::new(Vec3::zero(), Vec3::zero(), 0.0),
-            pdf_ptr: Arc::new(CosinePDF::new(&Vec3::ones())),
+            pdf_ptr: CosinePDF::new(&Vec3::ones()),
             is_specular: false,
         }
     }
@@ -56,7 +55,7 @@ impl<T: Texture> Material for Lambertian<T> {
             // specular_ray: Ray::new(rec.p, direction, r.tm),
             specular_ray: Ray::new(Vec3::zero(), Vec3::zero(), 0.0),
             attenuation: self.albedo.value(rec.u, rec.v, &rec.p),
-            pdf_ptr: Arc::new(CosinePDF::new(&rec.normal)),
+            pdf_ptr: CosinePDF::new(&rec.normal),
             is_specular: false,
         };
         Some(s_rec)
@@ -98,7 +97,7 @@ impl Material for Metal {
             ),
             attenuation: self.albedo,
             is_specular: true,
-            pdf_ptr: Arc::new(CosinePDF::new(&Vec3::ones())),
+            pdf_ptr: CosinePDF::new(&Vec3::ones()),
         };
         Some(s_rec)
     }
@@ -146,7 +145,7 @@ impl Material for Dielectric {
         let s_rec = ScatterRecord {
             attenuation: Vec3::ones(),
             specular_ray: Ray::new(rec.p, direction, r.tm),
-            pdf_ptr: Arc::new(CosinePDF::new(&Vec3::ones())),
+            pdf_ptr: CosinePDF::new(&Vec3::ones()),
             is_specular: true,
         };
         Some(s_rec)
@@ -194,7 +193,7 @@ impl<T: Texture> Material for Isotropic<T> {
         let s_rec = ScatterRecord {
             attenuation: self.albedo.value(rec.u, rec.v, &rec.p),
             specular_ray: Ray::new(rec.p, Vec3::random_in_unit_sphere(), r.tm),
-            pdf_ptr: Arc::new(CosinePDF::new(&Vec3::ones())),
+            pdf_ptr: CosinePDF::new(&Vec3::ones()),
             is_specular: true,
         };
         Some(s_rec)

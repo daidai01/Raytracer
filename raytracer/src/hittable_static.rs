@@ -188,25 +188,30 @@ impl<T: Clone + Hittable> Hittable for RotateY<T> {
 
     fn pdf_value(&self, o: &Vec3, v: &Vec3) -> f64 {
         let temp_o = Vec3::new(
-            self.cos_theta * o.x + self.sin_theta * o.z,
+            self.cos_theta * o.x - self.sin_theta * o.z,
             o.y,
-            -self.sin_theta * o.x + self.cos_theta * o.z,
+            self.sin_theta * o.x + self.cos_theta * o.z,
         );
         let temp_v = Vec3::new(
-            self.cos_theta * v.x + self.sin_theta * v.z,
+            self.cos_theta * v.x - self.sin_theta * v.z,
             v.y,
-            -self.sin_theta * v.x + self.cos_theta * v.z,
+            self.sin_theta * v.x + self.cos_theta * v.z,
         );
         self.ptr.pdf_value(&temp_o, &temp_v)
     }
 
     fn random(&self, o: &Vec3) -> Vec3 {
         let temp_o = Vec3::new(
-            self.cos_theta * o.x + self.sin_theta * o.z,
+            self.cos_theta * o.x - self.sin_theta * o.z,
             o.y,
-            -self.sin_theta * o.x + self.cos_theta * o.z,
+            self.sin_theta * o.x + self.cos_theta * o.z,
         );
-        self.random(&temp_o)
+        let temp_vec = self.random(&temp_o);
+        Vec3::new(
+            self.cos_theta * temp_vec.x + self.sin_theta * temp_vec.z,
+            temp_vec.y,
+            -self.sin_theta * temp_vec.x + self.cos_theta * temp_vec.z,
+        )
     }
 }
 
