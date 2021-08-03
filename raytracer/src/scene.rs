@@ -115,7 +115,7 @@ pub fn two_perlin_spheres() -> HittableList {
 
 pub fn earth() -> HittableList {
     let mut objects = HittableList::new();
-    let earth_texture = ImageTexture::new("earthmap.jpg");
+    let earth_texture = ImageTexture::new("jpg/earthmap.jpg");
     let earth_surface = Lambertian::new(earth_texture);
     objects.add(Arc::new(Sphere::new(Vec3::zero(), 2.0, earth_surface)));
     objects
@@ -317,7 +317,7 @@ pub fn final_scene() -> HittableList {
         0.0001,
         Isotropic::new(SolidColor::new_with_vec(Vec3::ones())),
     )));
-    let emat = Lambertian::new(ImageTexture::new("earthmap.jpg"));
+    let emat = Lambertian::new(ImageTexture::new("jpg/earthmap.jpg"));
     objects.add(Arc::new(Sphere::new(
         Vec3::new(400.0, 200.0, 400.0),
         100.0,
