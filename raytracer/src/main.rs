@@ -49,6 +49,8 @@ use std::sync::Arc;
 pub use texture_static::SolidColor;
 use threadpool::ThreadPool;
 pub use vec3::Vec3;
+use crate::hittable_static::ConstantMedium;
+use crate::material_static::{Dielectric, Isotropic};
 
 pub const INF: f64 = f64::MAX;
 pub const PI: f64 = std::f64::consts::PI;
@@ -149,6 +151,18 @@ fn main() {
         }
         _ => {
             world = scene::my_scene();
+            // let p = Isotropic::new(SolidColor::new_with_col(2.0 / 256.0, 197.0 / 256.0, 28.0 / 256.0));
+            // world.add(Arc::new(ConstantMedium::new(
+            //     Sphere::new(Vec3::new(200.0, 200.0, 100.0), 40.0, Dielectric::new(1.5)),
+            //     0.2,
+            //     p.clone(),
+            // )));
+            // let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
+            // world.add(Arc::new(Sphere::new(
+            //     Vec3::new(400.0, 400.0, 100.0),
+            //     40.0,
+            //     green.clone(),
+            // )));
             lights.add(Arc::new(XzRect::new(
                 213.0,
                 343.0,
@@ -159,7 +173,7 @@ fn main() {
             )));
             aspect_ratio = 2.0;
             image_width = 800;
-            samples_per_pixel = 10;
+            samples_per_pixel = 100;
             background = Vec3::new(0.7, 0.8, 1.0);
             // background = Vec3::zero();
             lookfrom = Vec3::new(478.0, 178.0, -800.0);

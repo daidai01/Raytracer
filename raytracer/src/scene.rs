@@ -363,7 +363,7 @@ pub fn my_scene() -> HittableList {
     let mut x1 = 0.0;
     objects.add(Arc::new(XyRect::new(
         -1500.0,
-        1000.0,
+        1500.0,
         -1000.0,
         1000.0,
         600.0,
