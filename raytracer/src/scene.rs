@@ -373,38 +373,37 @@ pub fn my_scene() -> HittableList {
         413.0, 243.0, 427.0, 232.0, 599.0, DiffuseLight::new(SolidColor::new_with_col(15.0, 15.0, 15.0)),
     ))));
     let metal_vec = generate_color();
-    let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
-    // let blue = Lambertian::new(SolidColor::new_with_col(0.0, 0.0, 1.0));
+    // let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
     let p = Isotropic::new(SolidColor::new_with_col(2.0 / 256.0, 197.0 / 256.0, 28.0 / 256.0));
     while x1 < upLimit {
         //sphere1
         x1 = t * spacingAtoms + xPos;
         let y1 = R * t.sin() + yPos;
         let z1 = R * t.cos() + zPos;
-        // objects.add(Arc::new(ConstantMedium::new(
-        //     Sphere::new(Vec3::new(x1, y1, z1), sphereR, Dielectric::new(1.5)),
-        //     0.2,
-        //     p.clone(),
-        // )));
-        objects.add(Arc::new(Sphere::new(
-            Vec3::new(x1, y1, z1),
-            sphereR,
-            green.clone(),
+        objects.add(Arc::new(ConstantMedium::new(
+            Sphere::new(Vec3::new(x1, y1, z1), sphereR, Dielectric::new(1.5)),
+            0.2,
+            p.clone(),
         )));
+        // objects.add(Arc::new(Sphere::new(
+        //     Vec3::new(x1, y1, z1),
+        //     sphereR,
+        //     green.clone(),
+        // )));
         //sphere2
         let x2 = x1;
         let y2 = -R * t.sin() + yPos;
         let z2 = -R * t.cos() + zPos;
-        // objects.add(Arc::new(ConstantMedium::new(
-        //     Sphere::new(Vec3::new(x2, y2, z2), sphereR, Dielectric::new(1.5)),
-        //     0.2,
-        //     p.clone(),
-        // )));
-        objects.add(Arc::new(Sphere::new(
-            Vec3::new(x2, y2, z2),
-            sphereR,
-            green.clone(),
+        objects.add(Arc::new(ConstantMedium::new(
+            Sphere::new(Vec3::new(x2, y2, z2), sphereR, Dielectric::new(1.5)),
+            0.2,
+            p.clone(),
         )));
+        // objects.add(Arc::new(Sphere::new(
+        //     Vec3::new(x2, y2, z2),
+        //     sphereR,
+        //     green.clone(),
+        // )));
         //base-pair
         let distance = ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)).sqrt();
         let num = (distance / basepairR) as i32;
