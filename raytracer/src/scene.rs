@@ -7,7 +7,7 @@ use crate::rectangle_static::{XyRect, XzRect, YzRect};
 use crate::sphere_static::{MovingSphere, Sphere};
 use crate::texture_static::{CheckerTexture, ImageTexture, NoiseTexture, SolidColor};
 use crate::vec3::Vec3;
-use crate::{random_0_1, random_min_max};
+use crate::{random_0_1, random_min_max, random_int};
 use std::sync::Arc;
 
 pub fn random_scene() -> HittableList {
@@ -351,9 +351,6 @@ pub fn final_scene() -> HittableList {
 
 pub fn my_scene() -> HittableList {
     let mut objects = HittableList::new();
-    // let num = 81;
-    let mat = generate_seven_color();
-    let mat_cnt = mat.len();
     let sphereR = 40.0;
     let basepairR = 4.0;
     let upLimit = 2000.0;
@@ -364,55 +361,53 @@ pub fn my_scene() -> HittableList {
     let spacingAtoms = 100.0;
     let mut t: f64 = 0.0;
     let mut x1 = 0.0;
-    let mut m_ptr = 0;
-    objects.add(Arc::new(XyRect::new(
-        -10000.0,
-        10000.0,
-        -10000.0,
-        10000.0,
-        600.0,
-        Lambertian::new(ImageTexture::new("jpg/green.jpg")),
-    )));
+    // objects.add(Arc::new(XyRect::new(
+    //     -1500.0,
+    //     1000.0,
+    //     -1000.0,
+    //     1000.0,
+    //     600.0,
+    //     Lambertian::new(ImageTexture::new("jpg/green.jpg")),
+    // )));
     objects.add(Arc::new(FlipFace::new(XzRect::new(
         413.0, 243.0, 427.0, 232.0, 599.0, DiffuseLight::new(SolidColor::new_with_col(15.0, 15.0, 15.0)),
     ))));
-    let surface2 = Metal::new(Vec3::new(0.12, 0.45, 0.15), 0.5);
+    let metal_vec = generate_color();
+    // let surface2 = Metal::new(Vec3::new(0.12, 0.45, 0.15), 0.5);
     let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
     let blue = Lambertian::new(SolidColor::new_with_col(0.0, 0.0, 1.0));
-    let p=            Isotropic::new(SolidColor::new_with_col(2.0 / 256.0, 197.0 / 256.0, 28.0 / 256.0));
+    let p = Isotropic::new(SolidColor::new_with_col(2.0 / 256.0, 197.0 / 256.0, 28.0 / 256.0));
     while x1 < upLimit {
         //sphere1
         x1 = t * spacingAtoms + xPos;
         let y1 = R * t.sin() + yPos;
         let z1 = R * t.cos() + zPos;
-        objects.add(Arc::new(ConstantMedium::new(
-            Sphere::new(Vec3::new(x1, y1, z1), sphereR, Dielectric::new(1.5)),
-            0.2,
-            p.clone(),
-        )));
+        // objects.add(Arc::new(ConstantMedium::new(
+        //     Sphere::new(Vec3::new(x1, y1, z1), sphereR, Dielectric::new(1.5)),
+        //     0.2,
+        //     p.clone(),
+        // )));
         // objects.add(Arc::new(Sphere::new(
         //     Vec3::new(x1, y1, z1),
         //     sphereR,
-        //     // blue1.clone(),
-        //     surface2.clone(),
+        //     blue.clone(),
+        //     // surface2.clone(),
         // )));
-        // m_ptr += 1;
         //sphere2
         let x2 = x1;
         let y2 = -R * t.sin() + yPos;
         let z2 = -R * t.cos() + zPos;
-        objects.add(Arc::new(ConstantMedium::new(
-            Sphere::new(Vec3::new(x2, y2, z2), sphereR, Dielectric::new(1.5)),
-            0.2,
-            p.clone(),
-        )));
+        // objects.add(Arc::new(ConstantMedium::new(
+        //     Sphere::new(Vec3::new(x2, y2, z2), sphereR, Dielectric::new(1.5)),
+        //     0.2,
+        //     p.clone(),
+        // )));
         // objects.add(Arc::new(Sphere::new(
         //     Vec3::new(x2, y2, z2),
         //     sphereR,
-        //     // blue2.clone(),
-        //     surface2.clone(),
+        //     blue.clone(),
+        //     // surface2.clone(),
         // )));
-        m_ptr += 1;
         //base-pair
         let distance = ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)).sqrt();
         let num = (distance / basepairR) as i32;
@@ -422,7 +417,7 @@ pub fn my_scene() -> HittableList {
             let x = (i * x1 + (n - i) * x2) / n;
             let y = (i * y1 + (n - i) * y2) / n;
             let z = (i * z1 + (n - i) * z2) / n;
-            let col = if _i * 2 < num { blue.clone() } else { green.clone() };
+            let col = metal_vec[random_int(0, 4) as usize].clone();
             objects.add(Arc::new(Sphere::new(
                 Vec3::new(x, y, z),
                 basepairR,
@@ -434,37 +429,12 @@ pub fn my_scene() -> HittableList {
     objects
 }
 
-fn generate_seven_color() -> Vec<Metal> {
-    // let mut col: Vec<Lambertian<SolidColor>> = vec![];
-    let mut col: Vec<Metal> = vec![];
-    // for i in 0..7 {
-    // let albedo = Vec3::random_min_max(0.5, 1.0);
-    let albedo = Vec3::new(0.04, 0.51, 0.77);
-    let fuzz = random_min_max(0.5, 0.8);
-    col.push(Metal::new(albedo, fuzz));
-    let albedo = Vec3::new(0.035, 0.48, 0.73);
-    let fuzz = random_min_max(0.5, 0.8);
-    col.push(Metal::new(albedo, fuzz));
-    let albedo = Vec3::new(0.02, 0.43, 0.66);
-    let fuzz = random_min_max(0.5, 0.8);
-    col.push(Metal::new(albedo, fuzz));
-    // col.push(Lambertian::new(SolidColor::new_with_col()));
-    // col.push(Lambertian::new(SolidColor::new_with_col()));
-    // col.push(Lambertian::new(SolidColor::new_with_col()));
-    // col.push(Lambertian::new(SolidColor::new_with_col(0.22, 0.54, 0.07)));
-    // col.push(Lambertian::new(SolidColor::new_with_col(0.06, 0.38, 0.71)));
-    // col.push(Lambertian::new(SolidColor::new_with_col(0.06, 0.04, 0.57)));
-    // col.push(Lambertian::new(SolidColor::new_with_col(0.36, 0.02, 0.57)));
-    //green
-    // col.push(Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15))) ;
-    // let blue = Lambertian::new(SolidColor::new_with_col(0.0, 0.0, 1.0));
-    // let blue1 = Lambertian::new(ImageTexture::new("jpg/iceblue1.jpg"));
-    // let blue2 = Lambertian::new(ImageTexture::new("jpg/iceblue2.jpg"));
-    col
-}
-
-fn generate_four_color() -> Vec<Lambertian<SolidColor>> {
-    let mut col: Vec<Lambertian<SolidColor>> = vec![];
-    // col.push()
-    col
+fn generate_color() -> Vec<Metal> {
+    let mut v: Vec<Metal> = vec![];
+    let fuzz = 0.8;
+    v.push(Metal::new(Vec3::new(0.0, 1.0, 0.0), fuzz));
+    v.push(Metal::new(Vec3::new(1.0, 0.0, 0.0), fuzz));
+    v.push(Metal::new(Vec3::new(0.0, 0.0, 1.0), fuzz));
+    v.push(Metal::new(Vec3::new(1.0, 1.0, 0.0), fuzz));
+    v
 }

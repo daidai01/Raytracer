@@ -143,12 +143,11 @@ fn main() {
             image_width = 800;
             samples_per_pixel = 1000; //10,000 is too big
             background = Vec3::zero();
-            lookfrom = Vec3::new(478.0, 278.0, -600.0);
-            lookat = Vec3::new(278.0, 278.0, 0.0);
+            lookfrom = Vec3::new(578.0, 0.0, -800.0);
+            lookat = Vec3::new(378.0, 200.0, 0.0);
             vfov = 40.0;
         }
         _ => {
-            //todo try
             world = scene::my_scene();
             lights.add(Arc::new(XzRect::new(
                 213.0,
@@ -158,11 +157,6 @@ fn main() {
                 354.0,
                 Lambertian::new(SolidColor::new_with_vec(Vec3::new(7.0, 7.0, 7.0))),
             )));
-            // lights.add(Arc::new(Sphere::new(
-            //     Vec3::new(190.0, 90.0, 190.0),
-            //     90.0,
-            //     Lambertian::new(SolidColor::new_with_vec(Vec3::zero())),
-            // )));
             aspect_ratio = 2.0;
             image_width = 800;
             samples_per_pixel = 10;
