@@ -68,7 +68,7 @@ fn main() {
     let mut aperture = 0.0;
     let mut background = Vec3::zero();
     let mut lights = HittableList::new();
-    match 6 {
+    match 0 {
         1 => {
             world = scene::random_scene();
             background = Vec3::new(0.7, 0.8, 1.0);
@@ -122,7 +122,7 @@ fn main() {
             )));
             aspect_ratio = 1.0;
             image_width = 600;
-            samples_per_pixel = 1000; //todo change
+            samples_per_pixel = 1000;
             background = Vec3::zero();
             lookfrom = Vec3::new(278.0, 278.0, -800.0);
             lookat = Vec3::new(278.0, 278.0, 0.0);
@@ -137,7 +137,7 @@ fn main() {
             lookat = Vec3::new(278.0, 278.0, 0.0);
             vfov = 40.0;
         }
-        _ => {
+        8 => {
             world = scene::final_scene();
             aspect_ratio = 1.0;
             image_width = 800;
@@ -145,6 +145,31 @@ fn main() {
             background = Vec3::zero();
             lookfrom = Vec3::new(478.0, 278.0, -600.0);
             lookat = Vec3::new(278.0, 278.0, 0.0);
+            vfov = 40.0;
+        }
+        _ => {
+            //todo try
+            world = scene::my_scene();
+            lights.add(Arc::new(XzRect::new(
+                213.0,
+                343.0,
+                227.0,
+                332.0,
+                354.0,
+                Lambertian::new(SolidColor::new_with_vec(Vec3::new(7.0, 7.0, 7.0))),
+            )));
+            // lights.add(Arc::new(Sphere::new(
+            //     Vec3::new(190.0, 90.0, 190.0),
+            //     90.0,
+            //     Lambertian::new(SolidColor::new_with_vec(Vec3::zero())),
+            // )));
+            aspect_ratio = 2.0;
+            image_width = 800;
+            samples_per_pixel = 10;
+            background = Vec3::new(0.7, 0.8, 1.0);
+            // background = Vec3::zero();
+            lookfrom = Vec3::new(378.0, 278.0, -800.0);
+            lookat = Vec3::new(378.0, 278.0, 0.0);
             vfov = 40.0;
         }
     }
@@ -219,7 +244,7 @@ fn main() {
         }
         bar.inc(1);
     }
-    result.save("output/test.png").unwrap();
+    result.save("output/my_scene.png").unwrap();
     bar.finish();
 
     // let mut img: RgbImage = ImageBuffer::new(image_width, image_height);
@@ -270,9 +295,9 @@ fn ray_color(
                 let pdf_val = p.value(&scattered.dir);
                 emitted
                     + Vec3::elemul(
-                        s_rec.attenuation * rec.mat_ptr.scattering_pdf(r, &rec, &scattered),
-                        ray_color(&scattered, background, world, lights, depth - 1) / pdf_val,
-                    )
+                    s_rec.attenuation * rec.mat_ptr.scattering_pdf(r, &rec, &scattered),
+                    ray_color(&scattered, background, world, lights, depth - 1) / pdf_val,
+                )
             }
         } else {
             emitted
