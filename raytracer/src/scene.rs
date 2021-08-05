@@ -387,12 +387,12 @@ pub fn my_scene() -> HittableList {
         //     0.2,
         //     p.clone(),
         // )));
-        // objects.add(Arc::new(Sphere::new(
-        //     Vec3::new(x1, y1, z1),
-        //     sphereR,
-        //     blue.clone(),
-        //     // surface2.clone(),
-        // )));
+        objects.add(Arc::new(Sphere::new(
+            Vec3::new(x1, y1, z1),
+            sphereR,
+            green.clone(),
+            // surface2.clone(),
+        )));
         //sphere2
         let x2 = x1;
         let y2 = -R * t.sin() + yPos;
@@ -402,12 +402,12 @@ pub fn my_scene() -> HittableList {
         //     0.2,
         //     p.clone(),
         // )));
-        // objects.add(Arc::new(Sphere::new(
-        //     Vec3::new(x2, y2, z2),
-        //     sphereR,
-        //     blue.clone(),
-        //     // surface2.clone(),
-        // )));
+        objects.add(Arc::new(Sphere::new(
+            Vec3::new(x2, y2, z2),
+            sphereR,
+            green.clone(),
+            // surface2.clone(),
+        )));
         //base-pair
         let distance = ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)).sqrt();
         let num = (distance / basepairR) as i32;
@@ -417,11 +417,12 @@ pub fn my_scene() -> HittableList {
             let x = (i * x1 + (n - i) * x2) / n;
             let y = (i * y1 + (n - i) * y2) / n;
             let z = (i * z1 + (n - i) * z2) / n;
-            let col = metal_vec[random_int(0, 4) as usize].clone();
+            // let col = metal_vec[random_int(0, 3) as usize].clone();
             objects.add(Arc::new(Sphere::new(
                 Vec3::new(x, y, z),
                 basepairR,
-                col,
+                // col,
+                blue.clone(),
             )));
         }
         t += 0.5;
