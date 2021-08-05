@@ -7,7 +7,7 @@ use crate::rectangle_static::{XyRect, XzRect, YzRect};
 use crate::sphere_static::{MovingSphere, Sphere};
 use crate::texture_static::{CheckerTexture, ImageTexture, NoiseTexture, SolidColor};
 use crate::vec3::Vec3;
-use crate::{random_0_1, random_min_max, random_int};
+use crate::{random_0_1, random_int, random_min_max};
 use std::sync::Arc;
 
 pub fn random_scene() -> HittableList {
@@ -354,8 +354,8 @@ pub fn my_scene() -> HittableList {
     let sphereR = 40.0;
     let basepairR = 4.0;
     let upLimit = 2000.0;
-    let xPos = -200.0;
-    let yPos = 200.0;
+    let xPos = -750.0;
+    let yPos = 300.0;
     let zPos = 100.0;
     let R = 120.0;
     let spacingAtoms = 100.0;
@@ -370,11 +370,20 @@ pub fn my_scene() -> HittableList {
         Lambertian::new(ImageTexture::new("jpg/green.jpg")),
     )));
     objects.add(Arc::new(FlipFace::new(XzRect::new(
-        413.0, 243.0, 427.0, 232.0, 599.0, DiffuseLight::new(SolidColor::new_with_col(15.0, 15.0, 15.0)),
+        413.0,
+        243.0,
+        427.0,
+        232.0,
+        599.0,
+        DiffuseLight::new(SolidColor::new_with_col(15.0, 15.0, 15.0)),
     ))));
     let metal_vec = generate_color();
     // let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
-    let p = Isotropic::new(SolidColor::new_with_col(2.0 / 256.0, 197.0 / 256.0, 28.0 / 256.0));
+    let p = Isotropic::new(SolidColor::new_with_col(
+        2.0 / 256.0,
+        197.0 / 256.0,
+        28.0 / 256.0,
+    ));
     while x1 < upLimit {
         //sphere1
         x1 = t * spacingAtoms + xPos;
@@ -405,14 +414,17 @@ pub fn my_scene() -> HittableList {
         //     green.clone(),
         // )));
         //base-pair
-        let distance = ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)).sqrt();
+        let distance =
+            ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)).sqrt();
         let num = (distance / basepairR) as i32;
         let r1 = random_int(0, 3) as usize;
         let col1 = metal_vec[r1].clone();
         let mut r2 = 0;
         loop {
             r2 = random_int(0, 3) as usize;
-            if r1 != r2 { break; }
+            if r1 != r2 {
+                break;
+            }
         }
         let col2 = metal_vec[r2].clone();
         for _i in 0..num {
@@ -421,12 +433,12 @@ pub fn my_scene() -> HittableList {
             let x = (i * x1 + (n - i) * x2) / n;
             let y = (i * y1 + (n - i) * y2) / n;
             let z = (i * z1 + (n - i) * z2) / n;
-            let col = if _i * 2 < num { col1.clone() } else { col2.clone() };
-            objects.add(Arc::new(Sphere::new(
-                Vec3::new(x, y, z),
-                basepairR,
-                col,
-            )));
+            let col = if _i * 2 < num {
+                col1.clone()
+            } else {
+                col2.clone()
+            };
+            objects.add(Arc::new(Sphere::new(Vec3::new(x, y, z), basepairR, col)));
         }
         t += 0.5;
     }

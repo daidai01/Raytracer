@@ -159,7 +159,7 @@ fn main() {
             )));
             aspect_ratio = 2.0;
             image_width = 800;
-            samples_per_pixel = 5;
+            samples_per_pixel = 100;
             background = Vec3::new(0.7, 0.8, 1.0);
             // background = Vec3::zero();
             lookfrom = Vec3::new(478.0, 178.0, -800.0);
@@ -289,9 +289,9 @@ fn ray_color(
                 let pdf_val = p.value(&scattered.dir);
                 emitted
                     + Vec3::elemul(
-                    s_rec.attenuation * rec.mat_ptr.scattering_pdf(r, &rec, &scattered),
-                    ray_color(&scattered, background, world, lights, depth - 1) / pdf_val,
-                )
+                        s_rec.attenuation * rec.mat_ptr.scattering_pdf(r, &rec, &scattered),
+                        ray_color(&scattered, background, world, lights, depth - 1) / pdf_val,
+                    )
             }
         } else {
             emitted
