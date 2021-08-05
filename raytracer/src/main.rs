@@ -162,7 +162,7 @@ fn main() {
             samples_per_pixel = 10;
             background = Vec3::new(0.7, 0.8, 1.0);
             // background = Vec3::zero();
-            lookfrom = Vec3::new(378.0, 278.0, -800.0);
+            lookfrom = Vec3::new(478.0, 178.0, -800.0);
             lookat = Vec3::new(378.0, 278.0, 0.0);
             vfov = 40.0;
         }
@@ -337,7 +337,7 @@ fn random_min_max(min: f64, max: f64) -> f64 {
 }
 
 fn random_int(min: i32, max: i32) -> i32 {
-    //return an i32 in[min,max)
+    //return an i32 in[min,max]
     random_min_max(min as f64, max as f64 + 1.0) as i32
 }
 

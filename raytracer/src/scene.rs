@@ -361,21 +361,20 @@ pub fn my_scene() -> HittableList {
     let spacingAtoms = 100.0;
     let mut t: f64 = 0.0;
     let mut x1 = 0.0;
-    // objects.add(Arc::new(XyRect::new(
-    //     -1500.0,
-    //     1000.0,
-    //     -1000.0,
-    //     1000.0,
-    //     600.0,
-    //     Lambertian::new(ImageTexture::new("jpg/green.jpg")),
-    // )));
+    objects.add(Arc::new(XyRect::new(
+        -1500.0,
+        1000.0,
+        -1000.0,
+        1000.0,
+        600.0,
+        Lambertian::new(ImageTexture::new("jpg/green.jpg")),
+    )));
     objects.add(Arc::new(FlipFace::new(XzRect::new(
         413.0, 243.0, 427.0, 232.0, 599.0, DiffuseLight::new(SolidColor::new_with_col(15.0, 15.0, 15.0)),
     ))));
     let metal_vec = generate_color();
-    // let surface2 = Metal::new(Vec3::new(0.12, 0.45, 0.15), 0.5);
     let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
-    let blue = Lambertian::new(SolidColor::new_with_col(0.0, 0.0, 1.0));
+    // let blue = Lambertian::new(SolidColor::new_with_col(0.0, 0.0, 1.0));
     let p = Isotropic::new(SolidColor::new_with_col(2.0 / 256.0, 197.0 / 256.0, 28.0 / 256.0));
     while x1 < upLimit {
         //sphere1
@@ -391,7 +390,6 @@ pub fn my_scene() -> HittableList {
             Vec3::new(x1, y1, z1),
             sphereR,
             green.clone(),
-            // surface2.clone(),
         )));
         //sphere2
         let x2 = x1;
@@ -406,23 +404,29 @@ pub fn my_scene() -> HittableList {
             Vec3::new(x2, y2, z2),
             sphereR,
             green.clone(),
-            // surface2.clone(),
         )));
         //base-pair
         let distance = ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)).sqrt();
         let num = (distance / basepairR) as i32;
+        let r1 = random_int(0, 3) as usize;
+        let col1 = metal_vec[r1].clone();
+        let mut r2 = 0;
+        loop {
+            r2 = random_int(0, 3) as usize;
+            if r1 != r2 { break; }
+        }
+        let col2 = metal_vec[r2].clone();
         for _i in 0..num {
             let n = num as f64;
             let i = _i as f64;
             let x = (i * x1 + (n - i) * x2) / n;
             let y = (i * y1 + (n - i) * y2) / n;
             let z = (i * z1 + (n - i) * z2) / n;
-            // let col = metal_vec[random_int(0, 3) as usize].clone();
+            let col = if _i * 2 < num { col1.clone() } else { col2.clone() };
             objects.add(Arc::new(Sphere::new(
                 Vec3::new(x, y, z),
                 basepairR,
-                // col,
-                blue.clone(),
+                col,
             )));
         }
         t += 0.5;
