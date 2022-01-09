@@ -7,7 +7,7 @@ use crate::rectangle_static::{XyRect, XzRect, YzRect};
 use crate::sphere_static::{MovingSphere, Sphere};
 use crate::texture_static::{CheckerTexture, ImageTexture, NoiseTexture, SolidColor};
 use crate::vec3::Vec3;
-use crate::{random_0_1, random_int, random_min_max};
+use crate::{PI, random_0_1, random_int, random_min_max};
 use std::sync::Arc;
 
 pub fn random_scene() -> HittableList {
@@ -458,7 +458,7 @@ pub fn solar_system() -> HittableList {
     let uranus = Lambertian::new(ImageTexture::new("jpg/uranus.jpg"));
     let neptune = Lambertian::new(ImageTexture::new("jpg/neptune.jpg"));
 
-    objects.add(Arc::new(XYRect::new(
+    objects.add(Arc::new(XyRect::new(
         0.0,
         1200.0,
         0.0,
@@ -517,10 +517,10 @@ pub fn solar_system() -> HittableList {
     let white = Lambertian::new(SolidColor::new_with_color(Vec3::new(0.99, 0.99, 0.99)));
     let radius = 40.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere: Arc<dyn Hittable> =
             Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
@@ -528,80 +528,80 @@ pub fn solar_system() -> HittableList {
 
     let radius = 80.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere = Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
     }
 
     let radius = 120.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere = Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
     }
 
     let radius = 150.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere = Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
     }
 
     let radius = 150.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere = Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
     }
 
     let radius = 400.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere = Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
     }
 
     let radius = 600.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere = Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
     }
 
     let radius = 900.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere = Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
     }
 
     let radius = 1000.0;
     let num = radius as usize * 4;
-    let unit_theta = 2.0 * PI / num as f32;
+    let unit_theta = 2.0 * PI / num as f64;
     for i in 0..num {
-        let x = (i as f32 * unit_theta).cos() * radius;
-        let z = (i as f32 * unit_theta).sin() * radius;
+        let x = (i as f64 * unit_theta).cos() * radius;
+        let z = (i as f64 * unit_theta).sin() * radius;
         let sphere = Arc::new(Sphere::new(Vec3::new(x, 400.0, z), 1.0, white.clone()));
         boxes.add(sphere);
     }
