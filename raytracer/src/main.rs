@@ -167,13 +167,13 @@ fn main() {
             vfov = 40.0;
         }
         _ => {
-            world = solar_system();
+            world = scene::solar_system();
             aspect_ratio = 1.5;
             image_width = 900;
             samples_per_pixel = 10;
-            background = Color::new(0.90, 0.90, 0.97);
-            lookfrom = Point3::new(278.0, 278.0, -800.0);
-            lookat = Point3::new(278.0, 278.0, 0.0);
+            background = Vec3::new(0.90, 0.90, 0.97);
+            lookfrom = Vec3::new(278.0, 278.0, -800.0);
+            lookat = Vec3::new(278.0, 278.0, 0.0);
             vfov = 40.0;
         }
     }
