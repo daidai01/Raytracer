@@ -147,7 +147,7 @@ fn main() {
             lookat = Vec3::new(378.0, 200.0, 0.0);
             vfov = 40.0;
         }
-        _ => {
+        9 => {
             world = scene::my_scene();
             lights.add(Arc::new(XzRect::new(
                 213.0,
@@ -164,6 +164,16 @@ fn main() {
             // background = Vec3::zero();
             lookfrom = Vec3::new(478.0, 178.0, -800.0);
             lookat = Vec3::new(378.0, 278.0, 0.0);
+            vfov = 40.0;
+        }
+        _ => {
+            world = solar_system();
+            aspect_ratio = 1.5;
+            image_width = 900;
+            samples_per_pixel = 10;
+            background = Color::new(0.90, 0.90, 0.97);
+            lookfrom = Point3::new(278.0, 278.0, -800.0);
+            lookat = Point3::new(278.0, 278.0, 0.0);
             vfov = 40.0;
         }
     }
