@@ -7,7 +7,7 @@ use crate::rectangle_static::{XyRect, XzRect, YzRect};
 use crate::sphere_static::{MovingSphere, Sphere};
 use crate::texture_static::{CheckerTexture, ImageTexture, NoiseTexture, SolidColor};
 use crate::vec3::Vec3;
-use crate::{PI, random_0_1, random_int, random_min_max};
+use crate::{random_0_1, random_int, random_min_max, PI};
 use std::sync::Arc;
 
 pub fn random_scene() -> HittableList {
