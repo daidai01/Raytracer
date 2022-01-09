@@ -170,7 +170,7 @@ fn main() {
             world = scene::solar_system();
             aspect_ratio = 1.5;
             image_width = 900;
-            samples_per_pixel = 100;
+            samples_per_pixel = 20;
             background = Vec3::new(0.90, 0.90, 0.97);
             lookfrom = Vec3::new(278.0, 278.0, -800.0);
             lookat = Vec3::new(278.0, 278.0, 0.0);
@@ -248,7 +248,7 @@ fn main() {
         }
         bar.inc(1);
     }
-    result.save("output/my_scene.png").unwrap();
+    result.save("output/solar_system.png").unwrap();
     bar.finish();
 
     // let mut img: RgbImage = ImageBuffer::new(image_width, image_height);
