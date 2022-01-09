@@ -514,7 +514,7 @@ pub fn solar_system() -> HittableList {
     )));
 
     let mut boxes = HittableList::new();
-    let white = Lambertian::new(SolidColor::new_with_color(Vec3::new(0.99, 0.99, 0.99)));
+    let white = Lambertian::new(SolidColor::new_with_col(0.99, 0.99, 0.99));
     let radius = 40.0;
     let num = radius as usize * 4;
     let unit_theta = 2.0 * PI / num as f64;
