@@ -367,7 +367,7 @@ pub fn my_scene() -> HittableList {
         -1000.0,
         1000.0,
         600.0,
-        Lambertian::new(ImageTexture::new("jpg/green.jpg")),
+        Lambertian::new(ImageTexture::new("jpg/blue_dna1.jpg")),
     )));
     objects.add(Arc::new(FlipFace::new(XzRect::new(
         413.0,
@@ -380,9 +380,9 @@ pub fn my_scene() -> HittableList {
     let metal_vec = generate_color();
     // let green = Lambertian::new(SolidColor::new_with_col(0.12, 0.45, 0.15));
     let p = Isotropic::new(SolidColor::new_with_col(
-        2.0 / 256.0,
-        197.0 / 256.0,
-        28.0 / 256.0,
+        128.0 / 256.0,
+        170.0 / 256.0,
+        255.0 / 256.0,
     ));
     while x1 < upLimit {
         //sphere1
