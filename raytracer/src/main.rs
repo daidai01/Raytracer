@@ -68,7 +68,7 @@ fn main() {
     let mut aperture = 0.0;
     let mut background = Vec3::zero();
     let mut lights = HittableList::new();
-    match 0 {
+    match 9 {
         1 => {
             world = scene::random_scene();
             background = Vec3::new(0.7, 0.8, 1.0);
