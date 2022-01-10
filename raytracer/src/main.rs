@@ -169,8 +169,8 @@ fn main() {
         _ => {
             world = scene::solar_system();
             aspect_ratio = 1.5;
-            image_width = 900;
-            samples_per_pixel = 10;
+            image_width = 400;
+            samples_per_pixel = 5;
             background = Vec3::new(0.90, 0.90, 0.97);
             lookfrom = Vec3::new(278.0, 278.0, -800.0);
             lookat = Vec3::new(278.0, 278.0, 0.0);
