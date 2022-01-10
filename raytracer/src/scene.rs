@@ -459,10 +459,10 @@ pub fn solar_system() -> HittableList {
     let neptune = Lambertian::new(ImageTexture::new("jpg/neptune.jpg"));
 
     objects.add(Arc::new(XyRect::new(
-        0.0,
-        1200.0,
-        0.0,
-        1200.0,
+        -2000.0,
+        2000.0,
+        -2000.0,
+        2000.0,
         1200.0,
         background.clone(),
     )));
