@@ -58,7 +58,7 @@ fn main() {
     let mut aspect_ratio = 16.0 / 9.0;
     let mut image_width: u32 = 400;
     let mut samples_per_pixel = 100;
-    let max_depth = 50;
+    let max_depth = 40;
 
     //world
     let mut world = HittableList::new();
@@ -68,7 +68,7 @@ fn main() {
     let mut aperture = 0.0;
     let mut background = Vec3::zero();
     let mut lights = HittableList::new();
-    match 6 {
+    match 0 {
         1 => {
             world = scene::random_scene();
             background = Vec3::new(0.7, 0.8, 1.0);
@@ -159,7 +159,7 @@ fn main() {
             )));
             aspect_ratio = 2.0;
             image_width = 800;
-            samples_per_pixel = 100;
+            samples_per_pixel = 80;
             background = Vec3::new(0.7, 0.8, 1.0);
             // background = Vec3::zero();
             lookfrom = Vec3::new(478.0, 178.0, -800.0);
