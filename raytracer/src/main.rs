@@ -68,7 +68,7 @@ fn main() {
     let mut aperture = 0.0;
     let mut background = Vec3::zero();
     let mut lights = HittableList::new();
-    match 9 {
+    match 0 {
         1 => {
             world = scene::random_scene();
             background = Vec3::new(0.7, 0.8, 1.0);
@@ -147,7 +147,7 @@ fn main() {
             lookat = Vec3::new(378.0, 200.0, 0.0);
             vfov = 40.0;
         }
-        9 => {
+        _ => {
             world = scene::my_scene();
             lights.add(Arc::new(XzRect::new(
                 213.0,
@@ -164,16 +164,6 @@ fn main() {
             // background = Vec3::zero();
             lookfrom = Vec3::new(478.0, 178.0, -800.0);
             lookat = Vec3::new(378.0, 278.0, 0.0);
-            vfov = 40.0;
-        }
-        _ => {
-            world = scene::solar_system();
-            aspect_ratio = 1.5;
-            image_width = 400;
-            samples_per_pixel = 5;
-            background = Vec3::new(0.90, 0.90, 0.97);
-            lookfrom = Vec3::new(278.0, 278.0, -800.0);
-            lookat = Vec3::new(278.0, 278.0, 0.0);
             vfov = 40.0;
         }
     }
@@ -248,7 +238,7 @@ fn main() {
         }
         bar.inc(1);
     }
-    result.save("output/solar_system.png").unwrap();
+    result.save("output/my.png").unwrap();
     bar.finish();
 
     // let mut img: RgbImage = ImageBuffer::new(image_width, image_height);
